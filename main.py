@@ -13,7 +13,7 @@ def processing_locations(locations: list) -> list:
     """
     for i in range(len(locations)):
         coords = coordinates(locations[i][1])
-        if coords != 'Not found':
+        if coords != 'Not found' and coords != None:
             locations[i].append(coords)
     return locations
 
@@ -24,7 +24,7 @@ def read_locations(year: int) -> list:
     match the year, entered by user, and are available for geocoding.
     """
     locations = []
-    with open('D:/R/loc.list', 'r', encoding='ISO-8859-1') as file:
+    with open('locations.list', 'r', encoding='ISO-8859-1') as file:
         for _ in range(14):
             file.readline()
         for _ in range(1000):
@@ -79,16 +79,20 @@ def sort_locations(locations: list) -> list:
     return locations
 
 
-# def create_map(place):
-#    coords = coordinates(place)
-#    lat = coords[0]
-#    lon = coords[1]
-#    geomap = folium.Map(zoom_start=10)
-#    fg = folium.FeatureGroup(name="Test Film Map")
-#    fg.add_child(folium.Marker(
-#        location=[lat, lon], popup='Test', icon=folium.Icon()))
-#    geomap.add_child(fg)
-#    geomap.save('D:/R/filmmap.html')
+def create_map(locations: list, home_lat: float, home_lon: float):
+    colors = ['red', 'blue', 'purple', 'orange', 'gray', 'pink', 'beige', 'darkblue',\
+        'cadetblue', 'darkpurple']
+    geomap = folium.Map(zoom_start=10)
+    fg = folium.FeatureGroup(name="Some Name")
+    geomap.add_child(folium.Marker(location=[home_lat, home_lon], popup='You`re currently here.', icon=folium.Icon(color='lightgreen', icon='home')))
+    for i in range(len(locations)):
+        coords = locations[i][-2]
+        lat, lon = coords[0], coords[1]
+        info = locations[i][0]
+        fg.add_child(folium.Marker(location=[lat, lon], popup=info, icon=folium.Icon(color=colors[i])))
+    geomap.add_child(fg)
+    geomap.save('filmmap.html')
+
 
 def main():
     """
@@ -113,4 +117,6 @@ def main():
     for i in range(len(locations)):
         if not isinstance(locations[i][-1], list):
             result.append(locations[i])
-    return sort_locations(result)
+    output = sort_locations(result)[0:10]
+    create_map(output, lat, lon)
+    return "Your map is ready, check it at filmmap.html"
