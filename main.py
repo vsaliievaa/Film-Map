@@ -3,6 +3,7 @@ import folium
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderUnavailable
 import math
+import random
 import re
 
 
@@ -27,8 +28,7 @@ def read_locations(year: int) -> list:
     with open('locations.list', 'r', encoding='ISO-8859-1') as file:
         for _ in range(14):
             file.readline()
-        for _ in range(2000):
-            line = file.readline()
+        for line in file:
             if re.findall(str(year), line):
                 line = line.strip().split('\t')
                 if len(line[-1].split("(")) == 1:
@@ -92,7 +92,7 @@ def create_map(locations: list, home_lat: float, home_lon: float):
         lat, lon = coords[0], coords[1]
         info = locations[i][0]
         distance = locations[i][-1]
-        fg.add_child(folium.Marker(location=[lat, lon], popup=info, icon=folium.Icon(color=colors[i])))
+        fg.add_child(folium.Marker(location=[lat, lon], popup=info, icon=folium.Icon(color=random.choice(colors))))
         fg_1.add_child(folium.Marker(location=[lat, lon], popup=distance, icon=folium.Icon(color="darkblue", icon="plane")))
     geomap.add_child(fg_2)
     geomap.add_child(fg)
@@ -127,5 +127,6 @@ def main():
         if not isinstance(locations[i][-1], list):
             result.append(locations[i])
     output = sort_locations(result)
+    print(output)
     create_map(output, lat, lon)
     print("Your map is ready, check it at filmmap.html")
