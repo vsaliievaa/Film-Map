@@ -27,7 +27,7 @@ def read_locations(year: int) -> list:
     with open('locations.list', 'r', encoding='ISO-8859-1') as file:
         for _ in range(14):
             file.readline()
-        for _ in range(1000):
+        for _ in range(2000):
             line = file.readline()
             if re.findall(str(year), line):
                 line = line.strip().split('\t')
@@ -80,18 +80,27 @@ def sort_locations(locations: list) -> list:
 
 
 def create_map(locations: list, home_lat: float, home_lon: float):
-    colors = ['red', 'blue', 'purple', 'orange', 'gray', 'pink', 'beige', 'darkblue',\
-        'cadetblue', 'darkpurple']
+    colors = ["red", "blue", "purple", "orange", "gray", "pink", "beige", "darkblue",\
+        "cadetblue", "darkpurple"]
     geomap = folium.Map(zoom_start=10)
-    fg = folium.FeatureGroup(name="Some Name")
-    geomap.add_child(folium.Marker(location=[home_lat, home_lon], popup='You`re currently here.', icon=folium.Icon(color='lightgreen', icon='home')))
+    fg = folium.FeatureGroup(name="Films Around Me")
+    fg_1 = folium.FeatureGroup(name="Distances", show=False)
+    fg_2 = folium.FeatureGroup(name="Home Layer")
+    fg_2.add_child(folium.Marker(location=[home_lat, home_lon], popup="You are currently here.", icon=folium.Icon(color="green", icon="home")))
     for i in range(len(locations)):
         coords = locations[i][-2]
         lat, lon = coords[0], coords[1]
         info = locations[i][0]
+        distance = locations[i][-1]
         fg.add_child(folium.Marker(location=[lat, lon], popup=info, icon=folium.Icon(color=colors[i])))
+        fg_1.add_child(folium.Marker(location=[lat, lon], popup=distance, icon=folium.Icon(color="darkblue", icon="plane")))
+    geomap.add_child(fg_2)
     geomap.add_child(fg)
-    geomap.save('filmmap.html')
+    geomap.add_child(fg_1)
+    folium.TileLayer('openstreetmap').add_to(geomap)
+    folium.TileLayer('Stamen Terrain').add_to(geomap)
+    folium.LayerControl().add_to(geomap)
+    geomap.save("filmmap.html")
 
 
 def main():
@@ -117,6 +126,6 @@ def main():
     for i in range(len(locations)):
         if not isinstance(locations[i][-1], list):
             result.append(locations[i])
-    output = sort_locations(result)[0:10]
+    output = sort_locations(result)
     create_map(output, lat, lon)
-    return "Your map is ready, check it at filmmap.html"
+    print("Your map is ready, check it at filmmap.html")
