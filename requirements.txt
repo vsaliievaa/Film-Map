@@ -1,3 +1,2 @@
-folium
-geopy.geocoders
-geopy.exc
+folium == 0.12.1
+geopy == 2.1.0
