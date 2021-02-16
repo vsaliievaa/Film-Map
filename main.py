@@ -21,7 +21,7 @@ def processing_locations(locations: list) -> list:
 
 def read_locations(year: int) -> list:
     """
-    Takes path to a file with locations, returns a list of all films, that
+    Takes path to a file with locations, returns a list of all films from the given 6500, that
     match the year, entered by user, and are available for geocoding.
     """
     locations = []
@@ -57,6 +57,8 @@ def coordinates(place: str) -> tuple:
 def haversine(lat_1: str, lon_1: str, lat_2: str, lon_2: str) -> str:
     """
     Calculates the distance between two points on the Earth, given these points` coordinates.
+    *Some formulas were taken from Wikipedia and interpreted for Python,
+    check README.md for more info.
     """
     lat_1, lon_1, lat_2, lon_2 = map(
         math.radians, [float(lat_1), float(lon_1), float(lat_2), float(lon_2)])
@@ -74,13 +76,16 @@ def haversine(lat_1: str, lon_1: str, lat_2: str, lon_2: str) -> str:
 
 def sort_locations(locations: list) -> list:
     """
-    Sorts all locations of the given year by distance and returns them.
+    Sorts all locations of the given year by distance and returns first ten.
     """
     locations.sort(key=lambda x: float(x[-1]))
     return locations[0:10]
 
 
 def create_map(locations: list, home_lat: float, home_lon: float):
+    """
+    Creates a map with 10 markers on it and saves the generated HTML-file as filmmap.html
+    """
     colors = ["red", "blue", "purple", "orange", "gray", "pink", "beige", "darkblue",\
         "cadetblue", "darkpurple"]
     points = []
@@ -109,7 +114,7 @@ def create_map(locations: list, home_lat: float, home_lon: float):
 
 def main():
     """
-    Main function of the module. As of now, allows the user to enter their data and returns the result. 
+    Main function of the module for interaction with the user. 
     """
     print('Enter a year you would like to form a map for: ', end='')
     year = int(input())
