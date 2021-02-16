@@ -12,6 +12,6 @@ When the map is ready, you'll be informed about it and invited to have a look at
 Your map includes three layers - you can switch them on and off via the layer control panel in the right upper corner of the map. To see what each layer is responsible for, choose a layer and click on an icon - you'll see either a movie title or a distance to the location it was filmed at.
 ![Starting work](screen4.png?raw="text")
 
-*Theoretical background and formulas for calculating haversine and distances between the two points on the Earth were taken from Wikipedia ([here](https://en.wikipedia.org/wiki/Haversine_formula#:~:text=The%20haversine%20formula%20determines%20the,and%20angles%20of%20spherical%20triangles.)) and interpreted for Python.
+_*Theoretical background and formulas for calculating haversine and distances between the two points on the Earth were taken from Wikipedia ([here](https://en.wikipedia.org/wiki/Haversine_formula#:~:text=The%20haversine%20formula%20determines%20the,and%20angles%20of%20spherical%20triangles.)) and interpreted for Python._
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
