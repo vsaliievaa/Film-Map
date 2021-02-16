@@ -28,7 +28,7 @@ def read_locations(year: int) -> list:
     with open('locations.list', 'r', encoding='ISO-8859-1') as file:
         for _ in range(14):
             file.readline()
-        for _ in range(6500):
+        for _ in range(2000):
             line = file.readline()
             if re.findall(str(year), line):
                 line = line.strip().split('\t')
@@ -138,4 +138,3 @@ def main():
     output = sort_locations(result)
     create_map(output, lat, lon)
     print("Your map is ready, check it at filmmap.html")
-
