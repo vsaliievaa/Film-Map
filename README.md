@@ -1,5 +1,5 @@
 # Film-Map
-Film-Map is a set of Python functions which help a user to generate an HTML map with 10 locations around the user's place on the globe, where movies were filmed.
+Film-Map is a set of Python functions which help a user to generate an HTML map with 10 locations around the user's place on the globe, where movies were filmed. As a result of running a program, the user gets an HTML-file, which consists of a leaflet container and a folium map itself with all the markers, popups, and lines. This information might be useful if one wants to see how near is he or she to the places where popular movies were filmed in a particular year.
 ## Installation
 To generate your own map, install the code and all the files via GitHub and run it on your computer.
 ## Usage
