@@ -82,6 +82,7 @@ def sort_locations(locations: list) -> list:
 def create_map(locations: list, home_lat: float, home_lon: float):
     colors = ["red", "blue", "purple", "orange", "gray", "pink", "beige", "darkblue",\
         "cadetblue", "darkpurple"]
+    points = []
     geomap = folium.Map(zoom_start=10)
     fg = folium.FeatureGroup(name="Films Around Me")
     fg_1 = folium.FeatureGroup(name="Distances", show=False)
@@ -89,11 +90,13 @@ def create_map(locations: list, home_lat: float, home_lon: float):
     fg_2.add_child(folium.Marker(location=[home_lat, home_lon], popup="You are currently here.", icon=folium.Icon(color="green", icon="home")))
     for i in range(len(locations)):
         coords = locations[i][-2]
+        points.append(coords)
         lat, lon = coords[0], coords[1]
         info = locations[i][0]
         distance = locations[i][-1]
         fg.add_child(folium.Marker(location=[lat, lon], popup=info, icon=folium.Icon(color=random.choice(colors))))
         fg_1.add_child(folium.Marker(location=[lat, lon], popup=distance, icon=folium.Icon(color="darkblue", icon="plane")))
+    fg_2.add_child(folium.PolyLine(points, color="red", opacity=1.5))
     geomap.add_child(fg_2)
     geomap.add_child(fg)
     geomap.add_child(fg_1)
@@ -130,3 +133,4 @@ def main():
     print(output)
     create_map(output, lat, lon)
     print("Your map is ready, check it at filmmap.html")
+main()
