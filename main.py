@@ -28,7 +28,8 @@ def read_locations(year: int) -> list:
     with open('locations.list', 'r', encoding='ISO-8859-1') as file:
         for _ in range(14):
             file.readline()
-        for line in file:
+        for _ in range(6500):
+            line = file.readline()
             if re.findall(str(year), line):
                 line = line.strip().split('\t')
                 if len(line[-1].split("(")) == 1:
@@ -76,7 +77,7 @@ def sort_locations(locations: list) -> list:
     Sorts all locations of the given year by distance and returns them.
     """
     locations.sort(key=lambda x: float(x[-1]))
-    return locations
+    return locations[0:10]
 
 
 def create_map(locations: list, home_lat: float, home_lon: float):
@@ -130,7 +131,6 @@ def main():
         if not isinstance(locations[i][-1], list):
             result.append(locations[i])
     output = sort_locations(result)
-    print(output)
     create_map(output, lat, lon)
     print("Your map is ready, check it at filmmap.html")
-main()
+
